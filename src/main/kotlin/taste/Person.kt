@@ -21,4 +21,13 @@ fun main() {
 
     println(person1 == person2)
     println(person1 === person2)
+    val newAlice = person1.copy(name = "Olga")
+    println(newAlice)
+
+    var s: String? = null
+    var s2: String = ""
+    s = "Ololo"
+    s2 = "Ololo"
+    println(s.length)
+    println(s2.length)
 }
