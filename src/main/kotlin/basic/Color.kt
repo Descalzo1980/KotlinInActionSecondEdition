@@ -52,6 +52,17 @@ fun mix(c1: Color, c2: Color) =
         else -> throw Exception("Dirty color")
     }
 
+fun mixOptimized(c1: Color, c2: Color) =
+    when {
+        (c1 == Color.RED && c2 == Color.YELLOW) || (c1 == Color.YELLOW && c2 == Color.RED) ->
+            Color.ORANGE
+        (c1 == Color.YELLOW && c2 == Color.BLUE) || (c1 == Color.BLUE && c2 == Color.YELLOW) ->
+            Color.GREEN
+        (c1 == Color.BLUE && c2 == Color.VIOLET) || (c1 == Color.VIOLET && c2 == Color.BLUE) ->
+            Color.INDIGO
+        else -> throw Exception("Dirty color")
+    }
+
 fun main() {
     println(Color.BLUE.rgb)
     // 255
@@ -63,4 +74,10 @@ fun main() {
     println(getWarmthFromSensor())
 
     println(mix(Color.BLUE, Color.YELLOW))
+
+    val firstSet = setOf("1", 2, true)
+    val firstSecond = setOf(2, true, "1")
+    println(firstSet.equals(firstSecond))
+
+    println(mixOptimized(Color.BLUE, Color.YELLOW))
 }
