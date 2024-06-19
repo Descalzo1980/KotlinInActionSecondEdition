@@ -23,6 +23,9 @@ class Ref<T>(var value: T){
     override fun toString(): String = "value=$value"
 }
 
+fun salute() = println("Salute!")
+
+
 fun main() {
     val errors = listOf("403 Forbidden", "404 Not Found")
     val errors1 = listOf(403, 404)
@@ -35,4 +38,15 @@ fun main() {
     val inc = { counter.value++ }
     inc()
     println(counter)
+
+    run(::salute)
+
+    val seb = Person("Sebastian", 26)
+    val personsAgeFunction = Person::age
+    println(personsAgeFunction(seb))
+
+    val sebsAgeFunction = seb::age
+    val sebsAgeFunction1 = { seb.age }
+    println(sebsAgeFunction())
+    println(sebsAgeFunction1())
 }
