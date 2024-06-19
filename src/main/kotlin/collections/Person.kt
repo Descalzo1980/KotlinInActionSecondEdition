@@ -18,7 +18,7 @@ fun main() {
     val oldestPerson = people.filter { it.age == maxAge}
     println(oldestPerson)*/
 
-    val numbers = listOf(1, 2, 3, 4, 5, 6, 7)
+/*    val numbers = listOf(1, 2, 3, 4, 5, 6, 7)
     val filtered = numbers.filterIndexed { index, element ->
         index % 2 == 0 && element > 3
     }
@@ -27,10 +27,10 @@ fun main() {
     val mapped = numbers.mapIndexed { index, element ->
         index + element
     }
-    println(mapped)
+    println(mapped)*/
 
-    val numbers1 = mapOf("One" to "zero", "Two" to "one")
-    println(numbers1.mapKeys { it.key.uppercase() })
+/*    val numbers1 = mapOf("One" to "zero", "Two" to "one")
+    println(numbers1.mapKeys { it.key.uppercase() })*/
 
     val list = listOf(1, 2, 3, 4)
     val summed = list.reduce { acc, element ->
@@ -42,5 +42,15 @@ fun main() {
         acc * element
     }
     println(multiplied)
+    // 24
+
+    val people = listOf(
+        Person("Alex", 29),
+        Person("Natalia", 28)
+    )
+    val folded = people.fold("") { acc, person ->
+        acc + person.name
+    }
+    println(folded)
 
 }
