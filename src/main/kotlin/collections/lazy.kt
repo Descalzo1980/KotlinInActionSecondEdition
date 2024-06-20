@@ -16,10 +16,59 @@ fun generatePeople(count: Int): List<Person> {
     return List(count) { generateRandomPerson() }
 }
 
+fun processPeopleChunk(people: List<Person>): Pair<Long, Long> {
+    val time1 = measureTimeMillis {
+        people
+            .asSequence()
+            .map(Person::name)
+            .filter { it.length < 4 }
+            .toList()
+    }
+
+    val time2 = measureTimeMillis {
+        people
+            .asSequence()
+            .filter { it.name.length < 4 }
+            .map(Person::name)
+            .toList()
+    }
+
+    return Pair(time1, time2)
+}
+
+
+suspend fun main() {
+    val totalPeople = 1_000_000_000
+    val chunkSize = 100_000
+    val numChunks = totalPeople / chunkSize
+
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    var totalTime1 = 0L
+    var totalTime2 = 0L
+
+    for (i in 0..<numChunks) {
+        val people = generatePeople(chunkSize)
+
+        val (time1, time2) = scope.async {
+            processPeopleChunk(people)
+        }.await()
+
+        totalTime1 += time1
+        totalTime2 += time2
+    }
+
+    println("Total time for first chain: $totalTime1 ms")
+    println("Total time for second chain: $totalTime2 ms")
+
+    scope.cancel()
+}
+
+/*
 suspend fun main() {
     val people = generatePeople(100000000)
 
-    val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     val time1Deferred = scope.async {
         val time1 = measureTimeMillis {
@@ -47,4 +96,4 @@ suspend fun main() {
     time2Deferred.await()
 
     scope.cancel()
-}
+}*/
