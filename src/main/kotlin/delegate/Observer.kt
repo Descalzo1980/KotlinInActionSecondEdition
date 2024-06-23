@@ -35,7 +35,7 @@ open class Observable {
         }
 }*/
 
-class ObservableProperty(var propValue: Int, val observable: Observable) {
+class ObservableProperty(private var propValue: Int, private val observable: Observable) {
     operator fun getValue(thisRef: Any?, prop: KProperty<*>): Int = propValue
     operator fun setValue(thisRef: Any?, prop: KProperty<*>, newValue: Int) {
         val oldValue = propValue
