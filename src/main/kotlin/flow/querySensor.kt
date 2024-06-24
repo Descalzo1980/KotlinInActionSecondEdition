@@ -2,10 +2,7 @@ package flow
 
 import coroutines.log
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
@@ -41,7 +38,8 @@ fun main() {
         }
 
         /*2*/
-        val sharedTemps = temps.shareIn(this, SharingStarted.Lazily)
+        val sharedTemps = temps.stateIn(this)
+        //val sharedTemps = temps.shareIn(this, SharingStarted.Lazily)
         launch {
             sharedTemps.collect {
                 log("$it Celsius")
