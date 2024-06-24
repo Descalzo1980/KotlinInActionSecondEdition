@@ -1,9 +1,8 @@
 package coroutines.scopes
 
 import coroutines.log
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
@@ -22,5 +21,28 @@ fun main() {
             log("Child 2 done!")
         }
         log("Parent done!")
+        launch {
+            computeSum()
+        }
     }
+
+
 }
+
+suspend fun generateValue(): Int {
+    delay(100.milliseconds)
+    return Random.nextInt(0, 10)
+}
+
+suspend fun computeSum() {
+    log("Computing a sum...")
+    val sum = coroutineScope {
+        val a = async { generateValue() }
+        val b = async { generateValue() }
+        a.await() + b.await()
+    }
+    log("Sum is $sum")
+}
+
+
+
