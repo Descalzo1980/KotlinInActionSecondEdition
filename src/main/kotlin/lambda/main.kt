@@ -22,6 +22,21 @@ fun <T> Collection<T>.joinToString(
     return result.toString()
 }
 
+fun <T> Collection<T>.joinToString(
+    separator: String = ", ",
+    prefix: String = "",
+    postfix: String = "",
+    transform: (T) -> String = { it.toString() }
+): String {
+    val result = StringBuilder(prefix)
+    for ((index, element) in this.withIndex()) {
+        if (index > 0) result.append(separator)
+        result.append(transform(element))
+    }
+    result.append(postfix)
+    return result.toString()
+}
+
 fun List<String>.transform(transformation: (List<String>) -> List<String>): List<String> {
     return transformation(this)
 }
@@ -37,4 +52,13 @@ fun main() {
     val result = strings.joinToString(separator = " * ", prefix = "[", postfix = "]")
 
     println(result)
+
+
+    val letters = listOf("Alpha", "Beta")
+    println(letters.joinToString())
+
+    println(letters.joinToString { it.lowercase() })
+
+
+    println(letters.joinToString(separator = "! ", postfix = "! ", transform = { it.uppercase() }))
 }
