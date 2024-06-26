@@ -6,6 +6,7 @@ data class SiteVisit(
     val os: OS
 )
 enum class OS { WINDOWS, LINUX, MAC, IOS, ANDROID }
+
 val log = listOf(
     SiteVisit("/", 34.0, OS.WINDOWS),
     SiteVisit("/", 22.0, OS.MAC),
@@ -19,6 +20,34 @@ val averageWindowsDuration = log
     .map(SiteVisit::duration)
     .average()
 
+fun List<SiteVisit>.averageDurationFor(os: OS) =
+filter { it.os == os }.map(SiteVisit::duration).average()
+
+fun List<SiteVisit>.averageDurationFor(predicate: (SiteVisit) -> Boolean) =
+    filter(predicate).map(SiteVisit::duration).average()
+
 fun main() {
     println(averageWindowsDuration)
+
+    println(log.averageDurationFor(OS.WINDOWS))
+
+    println(log.averageDurationFor(OS.MAC))
+
+    val averageMobileDuration = log
+        .filter { it.os in setOf(OS.IOS, OS.ANDROID) }
+        .map(SiteVisit::duration)
+        .average()
+    println(averageMobileDuration)
+
+    println(
+        log.averageDurationFor {
+            it.os in setOf(OS.ANDROID, OS.IOS)
+        }
+    )
+    println(
+        log.averageDurationFor {
+            it.os == OS.IOS && it.path == "/signup"
+        }
+    )
+
 }
