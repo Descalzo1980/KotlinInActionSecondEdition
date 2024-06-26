@@ -41,6 +41,8 @@ fun List<String>.transform(transformation: (List<String>) -> List<String>): List
     return transformation(this)
 }
 
+
+
 fun main() {
     println("ab1c".filter { it in 'a'..'z' })
 
@@ -61,4 +63,8 @@ fun main() {
 
 
     println(letters.joinToString(separator = "! ", postfix = "! ", transform = { it.uppercase() }))
+
+
+
+
 }
