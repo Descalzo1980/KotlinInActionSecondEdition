@@ -11,6 +11,18 @@ suspend inline fun <T> synchronized(lock: Mutex, action: () -> T): T {
     }
 }
 
+class LockOwner(val lock: Lock) {
+    fun __runUnderLock__(body: () -> Unit) {
+        lock.lock()
+        try {
+            body()
+        }
+        finally {
+            lock.unlock()
+        }
+    }
+}
+
 suspend fun main()  {
     val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     val lock = Mutex()
